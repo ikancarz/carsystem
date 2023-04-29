@@ -8,5 +8,6 @@ class AppColor {
   final Color whiteColor = Color.fromRGBO(255, 255, 255, 1);
   final Color blackColor = Color.fromRGBO(26, 26, 26, 1);
   final Color greyColor = Color.fromRGBO(197, 199, 200, 1);
+  final Color truegrey = Colors.grey;
   final Color greyColor10 = Colors.grey.shade300;
 }

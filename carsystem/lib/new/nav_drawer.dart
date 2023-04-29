@@ -1,3 +1,5 @@
+import 'package:carsystem/add_manage.dart';
+import 'package:carsystem/new/Dashboard_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,6 +11,7 @@ enum DrawerSelection {
   Car_Dashboard,
   Reservations,
   Notifications,
+  Addmanageppl,
   Chat_Support,
   Payments
 }
@@ -52,8 +55,8 @@ class _NavDrawerState extends State<NavDrawer> {
           leading: const Icon(Icons.car_repair),
           title: const Text("Car"),
           onTap: () {
-            // Navigator.of(context)
-            //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+            Navigator.of(context)
+                .push(MaterialPageRoute(builder: (context) => DashBoard()));
           },
         ),
         ListTile(
@@ -104,6 +107,15 @@ class _NavDrawerState extends State<NavDrawer> {
           onTap: () {
             // Navigator.of(context)
             //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+          },
+        ),
+        ListTile(
+          selected: widget.selected == DrawerSelection.Addmanageppl,
+          leading: const Icon(Icons.book_sharp),
+          title: const Text("Add & Manage People"),
+          onTap: () {
+            Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AddManageScreen()));
           },
         ),
         ListTile(

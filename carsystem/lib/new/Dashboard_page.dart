@@ -175,36 +175,61 @@ class _DashBoardState extends State<DashBoard> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                TextButton(
-                  child: Text(
-                    "All activity",
-                    style: TextStyle(fontSize: 20.sp),
-                  ),
-                  onPressed: () {
-                    //below container setup,for 2 different types of data
-                    allActivity = true;
+                Padding(
+                  padding: EdgeInsets.all(10.sp),
+                  child: GestureDetector(
+                    onTap: () {
+                      allActivity = true;
 
-                    setState(() {
-                      print("all activity status  ${allActivity}");
-                    });
-                  },
+                      setState(() {
+                        //data of revived activity will be shown
+                        print("all activity status  ${allActivity}");
+                      });
+                    },
+                    child: Text(
+                      "All Activity",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.sp),
+                    ),
+                  ),
                 ),
                 SizedBox(
                   width: 5.w,
                 ),
-                TextButton(
-                  child: Text(
-                    "Reviewed Activity",
-                    style: TextStyle(fontSize: 20.sp),
+                Padding(
+                  padding: EdgeInsets.all(10.sp),
+                  child: GestureDetector(
+                    onTap: () {
+                      allActivity = false;
+
+                      setState(() {
+                        //data of revived activity will be shown
+                        print("all activity status  ${allActivity}");
+                      });
+                    },
+                    child: Text(
+                      "Reviewed Activity",
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, fontSize: 18.sp),
+                    ),
                   ),
-                  onPressed: () {
-                    allActivity = false;
-                    setState(() {
-                      print("all activity status  ${allActivity}");
-                    });
-                    //below container setup changed
-                  },
                 ),
+                // TextButton(
+                //   style: TextButton.styleFrom(
+                //     backgroundColor: appColor.blackColor,
+                //   ),
+                //   child: Text(
+                //     "Reviewed Activity",
+                //     style: TextStyle(fontSize: 20.sp),
+                //   ),
+                //   onPressed: () {
+                //     allActivity = false;
+                //     setState(() {
+                //       print("all activity status  ${allActivity}");
+                //     });
+                //     //below container setup changed
+                //   },
+                // ),
               ],
             ),
             SizedBox(
@@ -268,10 +293,18 @@ class _DashBoardState extends State<DashBoard> {
                                 child: Padding(
                                   padding:
                                       EdgeInsets.only(top: 5.sp, left: 5.sp),
-                                  child: const Text("Filter by name",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
+                                  child: TextField(
+                                    decoration: const InputDecoration(
+                                      hintText: 'Filter by name',
+
+                                      //prefixIcon: Icon(Icons.search),
+                                    ),
+                                    onChanged: (value) {
+                                      // setState(() {
+                                      //   _searchQuery = value;
+                                      // });
+                                    },
+                                  ),
                                 ),
                               ),
                               SizedBox(
