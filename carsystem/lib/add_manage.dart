@@ -1,5 +1,5 @@
+import 'package:carsystem/new/Dashboard_page.dart';
 import 'package:flutter/material.dart';
-import 'package:carsystem/new/nav_drawer.dart';
 import 'package:carsystem/new/config/app_colors.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +11,15 @@ class AddManageScreen extends StatefulWidget {
 }
 
 class _AddManageScreenState extends State<AddManageScreen> {
-  //popup menu button elements
+  //----------------bool var
+  bool _isPeopleClicked = true;
+  bool _isGroupClicked = false;
+  bool _isApprovedClicked = true;
+  bool _isAwaitApprovalClicked = false;
+  //for the checkbox before to Name list for selction
+  bool ischeckboxClicked = false;
+
+  //popup menu button elements for right appbar icon
   final List<PopupMenuEntry<String>> _menuItems = [
     const PopupMenuItem<String>(
       value: 'Account',
@@ -55,12 +63,12 @@ class _AddManageScreenState extends State<AddManageScreen> {
     ),
   ];
 
-  //-----------------------------------------------------
+  // //-----------------------------------------------------
   void _handleMenuItemSelected(String value) {
     switch (value) {
       case 'Account':
         print("Account selected");
-        //navi
+        //navigatie to account section similary for all below
         break;
       case 'Settings':
         print(" Settings selected");
@@ -78,8 +86,10 @@ class _AddManageScreenState extends State<AddManageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      drawer: NavDrawer(selected: DrawerSelection.Addmanageppl),
+      //drawer: NavDrawer(selected: DrawerSelection.Addmanageppl),//not using this feature
       appBar: AppBar(
+        elevation: 0,
+        automaticallyImplyLeading: false,
         backgroundColor: appcolor.whiteColor,
         //centerTitle: true,
         iconTheme: IconThemeData(
@@ -112,306 +122,541 @@ class _AddManageScreenState extends State<AddManageScreen> {
         ],
       ),
       body: Center(
-        child: Column(
-          //mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
+        child: Row(
           children: [
-            //wecole card
             SizedBox(
-              height: 10.h,
-            ),
-            SizedBox(
-              height: 30.h,
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                child: Card(
-                  color: Colors.amber.shade50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Welcome to dashboard, if you have any queries visit ",
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                      GestureDetector(
-                          child: Text("here"),
-                          onTap: () {
-                            //navigate to more details page
-                            print("navigating to more details page");
-                          })
-                    ],
+              width: 70.w,
+              child: Column(
+                children: [
+                  SizedBox(
+                    height: 20.h,
                   ),
-                ),
+                  // Divider(),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.home,
+                    leading: Icon(
+                      Icons.home,
+                      color: appcolor.blackColor,
+                    ),
+                    title: const Text("Home"), //dashboard
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => DashBoard()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Notifications,
+                    leading: Icon(Icons.car_repair_outlined,
+                        color: appcolor.blackColor),
+                    title: const Text("Car"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.User,
+                    leading: Icon(
+                      Icons.man_outlined,
+                      color: appcolor.blackColor,
+                    ),
+                    title: Text("User"),
+                    onTap: () {},
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Owner,
+                    leading: Icon(Icons.open_with_outlined,
+                        color: appcolor.blackColor),
+                    title: Text("Owner"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => AboutPage()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Pilot,
+                    leading:
+                        Icon(Icons.emoji_people, color: appcolor.blackColor),
+                    title: const Text("Pilot"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Car_Dashboard,
+                    leading: Icon(Icons.car_rental, color: appcolor.blackColor),
+                    title: const Text("Car Dashboard"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Reservations,
+                    leading: Icon(Icons.book_sharp, color: appcolor.blackColor),
+                    title: const Text("Reservations"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  Container(
+                    color: appcolor.greyColor10,
+                    child: ListTile(
+                      //selected: widget.selected == DrawerSelection.Addmanageppl,
+                      leading: Icon(Icons.people_alt_outlined,
+                          color: appcolor.blackColor),
+                      title: const Text("Add & Manage People"),
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: (context) => AddManageScreen()));
+                      },
+                    ),
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Notifications,
+                    leading:
+                        Icon(Icons.notifications, color: appcolor.blackColor),
+                    title: const Text("Notificatons"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Chat_Support,
+                    leading: Icon(Icons.support_agent_sharp,
+                        color: appcolor.blackColor),
+                    title: const Text("Chat Support"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                  ListTile(
+                    //selected: widget.selected == DrawerSelection.Payments,
+                    leading: Icon(Icons.payments_outlined,
+                        color: appcolor.blackColor),
+                    title: const Text("Payments"),
+                    onTap: () {
+                      // Navigator.of(context)
+                      //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                    },
+                  ),
+                ],
               ),
             ),
-            SizedBox(
-              height: 30.h,
-            ),
-            Text(
-              "Add & Manage People",
-              style: TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            // SizedBox(
-            //   child: Row(
-            //     children: [
-            //       const ListTile(
-            //         title: Text("Did you know that employees can be admins too?"),
-            //         subtitle:
-            //             Text("Select an employee and change their to admin"),
-            //       ),
-            //       IconButton(
-            //           onPressed: () {
-            //             //if the user presses 'x' the card should go of
-            //           },
-            //           icon: const Icon(Icons.cancel_presentation_outlined))
-            //     ],
-            //   ),
-            // ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10.sp),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("people item data");
-                    },
-                    child: Text(
-                      "People",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.sp),
-                    ),
+            Expanded(
+              child: Column(
+                //mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  //wecole card
+                  SizedBox(
+                    height: 10.h,
                   ),
-                ),
-                //SizedBox(width: 5.w),
-                Padding(
-                  padding: EdgeInsets.all(10.sp),
-                  child: GestureDetector(
-                    onTap: () {
-                      print("groups item data");
-                    },
-                    child: Text(
-                      "Groups",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.sp),
-                    ),
-                  ),
-                )
-              ],
-            ),
 
-            Divider(
-              thickness: 10.sp,
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      //functiion on whether approved to awaiting approval
-                    },
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      backgroundColor: appcolor.blackColor,
-                    ),
-                    child: const Text(
-                      "Approved",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  SizedBox(
+                    height: 30.h,
                   ),
-                ),
-                SizedBox(
-                  width: 5.w,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20),
-                      ),
-                      backgroundColor: appcolor.blackColor,
-                    ),
-                    onPressed: () {
-                      //functiion on whether approved to awaiting approval
-                    },
-                    child: const Text(
-                      "Awaiting Approval",
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
+                  Text(
+                    "Add & Manage People",
+                    style:
+                        TextStyle(fontSize: 30.sp, fontWeight: FontWeight.bold),
                   ),
-                )
-              ],
-            ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Row(
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: GestureDetector(
+                          onTap: () {
+                            _isPeopleClicked = true;
+                            _isGroupClicked = false;
+                            setState(() {});
+                            print("people item data");
+                            //funtion on data to be shown once people is selected to be called here
+                          },
+                          child: Text("People",
+                              style: _isPeopleClicked
+                                  ? TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.sp)
+                                  : TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 18.sp)),
+                        ),
                       ),
-                      backgroundColor: appcolor.truegrey,
-                    ),
-                    onPressed: () {
-                      //functiion on whether approved to awaiting approval
-                    },
+                      //SizedBox(width: 5.w),
+                      Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: GestureDetector(
+                          onTap: () {
+                            _isPeopleClicked = false;
+                            _isGroupClicked = true;
+                            setState(() {});
+                            print("groups item data");
+                          },
+                          child: Text("Groups",
+                              style: _isGroupClicked
+                                  ? TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20.sp)
+                                  : TextStyle(
+                                      fontWeight: FontWeight.normal,
+                                      fontSize: 18.sp)),
+                        ),
+                      )
+                    ],
+                  ),
+
+                  Divider(
+                    thickness: 10.sp,
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SingleChildScrollView(
                     child: Row(
                       children: [
-                        Text(
-                          "All",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appcolor.blackColor),
+                        SizedBox(
+                          height: 35,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              _isApprovedClicked = true;
+                              _isAwaitApprovalClicked = false;
+                              setState(() {});
+                              //functiion on whether approved to awaiting approval
+                            },
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: _isApprovedClicked
+                                  ? appcolor.blackColor
+                                  : appcolor.greyColor10,
+                            ),
+                            child: Text(
+                              "Approved",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _isApprovedClicked
+                                      ? appcolor.whiteColor
+                                      : appcolor.blackColor),
+                            ),
+                          ),
                         ),
                         SizedBox(
-                          width: 20.w,
+                          width: 3.w,
                         ),
-                        Icon(
-                          Icons.arrow_drop_down,
-                          color: appcolor.blackColor,
+                        SizedBox(
+                          height: 35,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(20),
+                              ),
+                              backgroundColor: _isAwaitApprovalClicked
+                                  ? appcolor.blackColor
+                                  : appcolor.greyColor10,
+                            ),
+                            onPressed: () {
+                              _isApprovedClicked = false;
+                              _isAwaitApprovalClicked = true;
+                              setState(() {});
+                              //functiion on whether approved to awaiting approval
+                            },
+                            child: Text(
+                              "Awaiting Approval",
+                              style: TextStyle(
+                                  fontWeight: FontWeight.bold,
+                                  color: _isAwaitApprovalClicked
+                                      ? appcolor.whiteColor
+                                      : appcolor.blackColor),
+                            ),
+                          ),
                         )
                       ],
                     ),
                   ),
-                ),
-                Padding(
-                    padding: EdgeInsets.all(8.sp),
-                    child: Container(
-                      decoration: BoxDecoration(
-                          color: appcolor.truegrey,
-                          borderRadius: BorderRadius.circular(10)),
-                      width: 80.w,
-                      height: 25.h,
-                      child: TextField(
-                        onChanged: ((value) {
-                          //serch function to be written
-                        }),
-                        decoration: const InputDecoration(
-                          hintText: "Search by name or email address",
-                          border: InputBorder.none,
-                          prefixIcon: Icon(Icons.search),
-                        ),
-                      ),
-                    )),
-                SizedBox(
-                  width: 100.w,
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: appcolor.truegrey,
-                    ),
-                    onPressed: () {
-                      //functiion on whether approved to awaiting approval
-                    },
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SingleChildScrollView(
                     child: Row(
                       children: [
-                        Icon(
-                          Icons.download_for_offline_outlined,
-                          color: appcolor.blackColor,
+                        SizedBox(
+                          height: 30,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: appcolor.greyColor10,
+                            ),
+                            onPressed: () {
+                              //functiion on whether approved to awaiting approval
+                            },
+                            child: Row(
+                              children: [
+                                Text(
+                                  "All",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: appcolor.blackColor),
+                                ),
+                                SizedBox(
+                                  width: 20.w,
+                                ),
+                                Icon(
+                                  Icons.arrow_drop_down,
+                                  color: appcolor.blackColor,
+                                )
+                              ],
+                            ),
+                          ),
                         ),
                         SizedBox(
                           width: 5.w,
                         ),
-                        Text(
-                          "Export",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appcolor.blackColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: appcolor.truegrey,
-                    ),
-                    onPressed: () {
-                      //functiion for bulk addition
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.cloud_upload_outlined,
-                          color: appcolor.blackColor,
+                        SizedBox(
+                          height: 30,
+                          child: Container(
+                            decoration: BoxDecoration(
+                                color: appcolor.greyColor10,
+                                borderRadius: BorderRadius.circular(5)),
+                            width: 80.w,
+                            //height: 30.h,
+                            child: TextField(
+                              onChanged: ((value) {
+                                //serch function to be written
+                              }),
+                              decoration: const InputDecoration(
+                                hintText: "Search by name or email address",
+                                border: InputBorder.none,
+                                prefixIcon: Icon(Icons.search),
+                              ),
+                            ),
+                          ),
                         ),
                         SizedBox(
-                          width: 5.w,
-                        ),
-                        Text(
-                          "Bulk Add",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appcolor.blackColor),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                Padding(
-                  padding: EdgeInsets.all(8.sp),
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      elevation: 0,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                      backgroundColor: appcolor.truegrey,
-                    ),
-                    onPressed: () {
-                      //new employee add fucntion
-                    },
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.group_add,
-                          color: appcolor.blackColor,
+                          width: 50.w,
                         ),
                         SizedBox(
-                          width: 5.w,
+                          height: 30,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: appcolor.greyColor10,
+                            ),
+                            onPressed: () {
+                              //functiion on whether approved to export button pressed
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.download_for_offline_outlined,
+                                  color: appcolor.blackColor,
+                                ),
+                                SizedBox(
+                                  width: 3.w,
+                                ),
+                                Text(
+                                  "Export",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: appcolor.blackColor),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
-                        Text(
-                          "Add",
-                          style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: appcolor.blackColor),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: appcolor.greyColor10,
+                            ),
+                            onPressed: () {
+                              //functiion for bulk addition
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.cloud_upload_outlined,
+                                  color: appcolor.blackColor,
+                                ),
+                                SizedBox(
+                                  width: 3.w,
+                                ),
+                                Text(
+                                  "Bulk Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: appcolor.blackColor),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 3.w,
+                        ),
+                        SizedBox(
+                          height: 30,
+                          child: ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              elevation: 0,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                              backgroundColor: appcolor.greyColor10,
+                            ),
+                            onPressed: () {
+                              //new employee add fucntion
+                            },
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.group_add,
+                                  color: appcolor.blackColor,
+                                ),
+                                SizedBox(
+                                  width: 3.w,
+                                ),
+                                Text(
+                                  "Add",
+                                  style: TextStyle(
+                                      fontWeight: FontWeight.bold,
+                                      color: appcolor.blackColor),
+                                ),
+                              ],
+                            ),
+                          ),
                         ),
                       ],
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  SingleChildScrollView(
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: SizedBox(
+                            height: 60.h,
+                            child: Container(
+                              color: appcolor.greyColor10,
+                              child: Padding(
+                                padding: EdgeInsets.all(12.sp),
+                                child: Row(children: [
+                                  SizedBox(
+                                    width: 10.w,
+                                  ),
+                                  //checkbox for names selection
+
+                                  Checkbox(
+                                      value: ischeckboxClicked,
+                                      onChanged: (value) {
+                                        setState(() {
+                                          ischeckboxClicked = value!;
+                                        });
+                                      }),
+                                  Text(
+                                    "Name",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 40.w,
+                                  ),
+                                  Text(
+                                    "Status",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Text(
+                                    "Email",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 40.w,
+                                  ),
+                                  Text(
+                                    "Employee ID",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Text(
+                                    "Role",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Text(
+                                    "Group",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                  SizedBox(
+                                    width: 20.w,
+                                  ),
+                                  Text(
+                                    "Last Invited",
+                                    style: TextStyle(
+                                        fontWeight: FontWeight.bold,
+                                        fontSize: 16.sp),
+                                  ),
+                                ]),
+                              ),
+                            ),
+                          ),
+                        ) // Text('This is another widget in the row'),
+                      ],
+                    ),
+                  ),
+                  //the api fetched data of emplyee has to shown below
+                ],
+              ),
             )
           ],
         ),

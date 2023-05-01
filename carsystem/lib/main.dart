@@ -1,7 +1,9 @@
 //screenutil package usage
 //abhishek patil
 
+import 'package:carsystem/add_manage.dart';
 import 'package:carsystem/new/Dashboard_page.dart';
+import 'package:carsystem/static_side.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 

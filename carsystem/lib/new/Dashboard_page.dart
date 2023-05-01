@@ -1,5 +1,5 @@
+import 'package:carsystem/add_manage.dart';
 import 'package:carsystem/new/config/app_colors.dart';
-import 'package:carsystem/new/nav_drawer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -11,7 +11,10 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
+  bool _isAllActivityClicked = true;
+  bool _isRevivedActicityClicked = false;
   bool allActivity = true;
+  //dummy data to show in the body
   List<String> _names = ['John', 'Mary', 'David', 'Jane', 'Alex', 'Sarah'];
   List<String> dates = [
     '1-1-2023 to 1-2-2023',
@@ -21,9 +24,10 @@ class _DashBoardState extends State<DashBoard> {
         '5-1-2023 to 6-2-2023'
         '6-1-2023 to 7-2-2023'
   ];
-  bool _isAscending = true;
-  String _searchQuery = '';
-  //appcolors
+  bool _isAscending = true; //for getting names in ascending
+  String _searchQuery = ''; //for textfield used
+
+  //appColors class instance
   AppColor appColor = AppColor();
 
 //popup menu button elements
@@ -97,311 +101,436 @@ class _DashBoardState extends State<DashBoard> {
         .sort((a, b) => _isAscending ? a.compareTo(b) : b.compareTo(a));
 
     return Scaffold(
-      drawer: NavDrawer(selected: DrawerSelection.home),
-      appBar: AppBar(
-        backgroundColor: appColor.whiteColor,
-        //centerTitle: true,
-        iconTheme: IconThemeData(
-          color: appColor.blackColor,
-        ),
-        title: Text(
-          "Uber for business",
-          style: TextStyle(
-              fontWeight: FontWeight.bold,
-              fontSize: 24.sp,
-              color: Colors.black),
-        ),
-        actions: <Widget>[
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.help),
-            tooltip: "Help",
+        //drawer: NavDrawer(selected: DrawerSelection.home),
+        appBar: AppBar(
+          automaticallyImplyLeading: false,
+          elevation: 0,
+          backgroundColor: appColor.whiteColor,
+          //centerTitle: true,
+          iconTheme: IconThemeData(
+            color: appColor.blackColor,
           ),
-          IconButton(
-            onPressed: () {},
-            icon: const Icon(Icons.notifications),
-            //tooltip: "Help",
+          title: Text(
+            "Uber for business",
+            style: TextStyle(
+                fontWeight: FontWeight.bold,
+                fontSize: 24.sp,
+                color: Colors.black),
           ),
-          PopupMenuButton<String>(
-            itemBuilder: (BuildContext context) => _menuItems,
-            onSelected: _handleMenuItemSelected,
-            icon: const Icon(Icons.account_circle),
-            //shape:
-          ),
-        ],
-      ),
-      body: Column(
-          // mainAxisAlignment: MainAxisAlignment.center,
-          // crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(
-              height: 10.h,
+          actions: <Widget>[
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.help),
+              tooltip: "Help",
             ),
-            SizedBox(
-              height: 30.h,
-              child: Padding(
-                padding: EdgeInsets.only(left: 10.sp, right: 10.sp),
-                child: Card(
-                  color: Colors.amber.shade50,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        "Welcome to dashboard, if you have any queries visit ",
-                        style: TextStyle(fontSize: 16.sp),
-                      ),
-                      GestureDetector(
-                          child: Text("here"),
-                          onTap: () {
-                            //navigate to more details page
-                            print("navigating to more details page");
-                          })
-                    ],
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.notifications),
+              //tooltip: "Help",
+            ),
+            PopupMenuButton<String>(
+              itemBuilder: (BuildContext context) => _menuItems,
+              onSelected: _handleMenuItemSelected,
+              icon: const Icon(Icons.account_circle),
+              //shape:
+            ),
+          ],
+        ),
+        body: Row(children: [
+          SizedBox(
+            width: 70.w,
+            child: Column(
+              children: [
+                SizedBox(
+                  height: 20.h,
+                ),
+                // Divider(),
+                Container(
+                  color: appColor.greyColor10,
+                  child: ListTile(
+                    //selected: widget.selected == DrawerSelection.home,
+                    leading: Icon(
+                      Icons.home,
+                      color: appColor.blackColor,
+                    ),
+                    title: const Text("Home"), //dashboard
+                    onTap: () {
+                      Navigator.of(context).push(
+                          MaterialPageRoute(builder: (context) => DashBoard()));
+                    },
                   ),
                 ),
-              ),
-            ),
-            SizedBox(
-              height: 10.h,
-            ),
-            Text(
-              "Activity",
-              textAlign: TextAlign.left,
-              style: TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(
-              height: 20.h,
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Padding(
-                  padding: EdgeInsets.all(10.sp),
-                  child: GestureDetector(
-                    onTap: () {
-                      allActivity = true;
-
-                      setState(() {
-                        //data of revived activity will be shown
-                        print("all activity status  ${allActivity}");
-                      });
-                    },
-                    child: Text(
-                      "All Activity",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.sp),
-                    ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Notifications,
+                  leading: Icon(Icons.car_repair_outlined,
+                      color: appColor.blackColor),
+                  title: const Text("Car"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.User,
+                  leading: Icon(
+                    Icons.man_outlined,
+                    color: appColor.blackColor,
                   ),
+                  title: Text("User"),
+                  onTap: () {
+                    // Navigator.of(context).push(MaterialPageRoute(
+                    //     builder: (context) => MemeCreatorPage(
+                    //           selectedImageUrl: defaultImageUrl,
+                    //         )));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Owner,
+                  leading: Icon(Icons.open_with_outlined,
+                      color: appColor.blackColor),
+                  title: Text("Owner"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => AboutPage()));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Pilot,
+                  leading: Icon(Icons.emoji_people, color: appColor.blackColor),
+                  title: const Text("Pilot"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
                 ),
                 SizedBox(
-                  width: 5.w,
+                  height: 20,
                 ),
-                Padding(
-                  padding: EdgeInsets.all(10.sp),
-                  child: GestureDetector(
-                    onTap: () {
-                      allActivity = false;
-
-                      setState(() {
-                        //data of revived activity will be shown
-                        print("all activity status  ${allActivity}");
-                      });
-                    },
-                    child: Text(
-                      "Reviewed Activity",
-                      style: TextStyle(
-                          fontWeight: FontWeight.bold, fontSize: 18.sp),
-                    ),
-                  ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Car_Dashboard,
+                  leading: Icon(Icons.car_rental, color: appColor.blackColor),
+                  title: const Text("Car Dashboard"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
                 ),
-                // TextButton(
-                //   style: TextButton.styleFrom(
-                //     backgroundColor: appColor.blackColor,
-                //   ),
-                //   child: Text(
-                //     "Reviewed Activity",
-                //     style: TextStyle(fontSize: 20.sp),
-                //   ),
-                //   onPressed: () {
-                //     allActivity = false;
-                //     setState(() {
-                //       print("all activity status  ${allActivity}");
-                //     });
-                //     //below container setup changed
-                //   },
-                // ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Reservations,
+                  leading: Icon(Icons.book_sharp, color: appColor.blackColor),
+                  title: const Text("Reservations"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
+                ),
+                ListTile(
+                  selectedTileColor: appColor.greyColor10,
+                  //selected: widget.selected == DrawerSelection.Addmanageppl,
+                  leading: Icon(Icons.people_outline_rounded,
+                      color: appColor.blackColor),
+                  title: const Text("Add & Manage People"),
+                  onTap: () {
+                    Navigator.of(context).push(MaterialPageRoute(
+                        builder: (context) => AddManageScreen()));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Notifications,
+                  leading:
+                      Icon(Icons.notifications, color: appColor.blackColor),
+                  title: const Text("Notificatons"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Chat_Support,
+                  leading: Icon(Icons.support_agent_sharp,
+                      color: appColor.blackColor),
+                  title: const Text("Chat Support"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
+                ),
+                ListTile(
+                  //selected: widget.selected == DrawerSelection.Payments,
+                  leading:
+                      Icon(Icons.payments_outlined, color: appColor.blackColor),
+                  title: const Text("Payments"),
+                  onTap: () {
+                    // Navigator.of(context)
+                    //     .push(MaterialPageRoute(builder: (context) => NewHomeScreen()));
+                  },
+                ),
               ],
             ),
-            SizedBox(
-              height: 5.h,
-            ),
-            Divider(
-              thickness: 10.sp,
-            ),
-            //------------------------------------Need to change here as it is not working inside a Row body
-            Padding(
-              padding: EdgeInsets.all(5.sp),
-              child: TextField(
-                decoration: const InputDecoration(
-                  hintText: 'Filter by name',
-                  prefixIcon: Icon(Icons.search),
-                ),
-                onChanged: (value) {
-                  setState(() {
-                    _searchQuery = value;
-                  });
-                },
-              ),
-            ),
-            //the body
-            allActivity
-                ? Column(
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          //name and assending option row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Name',
-                                  textAlign: TextAlign.start,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              IconButton(
-                                icon: Icon(_isAscending
-                                    ? Icons.arrow_upward
-                                    : Icons.arrow_downward),
-                                onPressed: () {
-                                  setState(() {
-                                    _isAscending =
-                                        !_isAscending; // for asending and descending feature
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: appColor.greyColor10,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                width: 45.w,
-                                height: 25.h,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 5.sp, left: 5.sp),
-                                  child: TextField(
-                                    decoration: const InputDecoration(
-                                      hintText: 'Filter by name',
+          ),
+          Divider(
+            color: appColor.blackColor,
+            thickness: 5,
+          ),
+          Expanded(
+            child: Column(
+                // mainAxisAlignment: MainAxisAlignment.center,
+                // crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(
+                    height: 10.h,
+                  ),
 
-                                      //prefixIcon: Icon(Icons.search),
-                                    ),
-                                    onChanged: (value) {
-                                      // setState(() {
-                                      //   _searchQuery = value;
-                                      // });
-                                    },
-                                  ),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: appColor.greyColor10,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                width: 45.w,
-                                height: 25.h,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 5.sp, left: 5.sp),
-                                  child: const Text("1-1-2023 to 1-2-2023",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              )
-                            ],
-                          ),
-                        ],
-                      ),
-                    ],
-                  )
-                : Column(
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Text(
+                    "Activity",
+                    textAlign: TextAlign.left,
+                    style:
+                        TextStyle(fontSize: 24.sp, fontWeight: FontWeight.bold),
+                  ),
+                  SizedBox(
+                    height: 20.h,
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          //name and assending option row
-                          Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              const Text('Name',
-                                  textAlign: TextAlign.start,
-                                  style:
-                                      TextStyle(fontWeight: FontWeight.bold)),
-                              IconButton(
-                                icon: Icon(_isAscending
-                                    ? Icons.arrow_upward
-                                    : Icons.arrow_downward),
-                                onPressed: () {
-                                  setState(() {
-                                    _isAscending =
-                                        !_isAscending; // for asending and descending feature
-                                  });
-                                },
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: appColor.greyColor10,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                width: 45.w,
-                                height: 25.h,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 5.sp, left: 5.sp),
-                                  child: const Text("Filter by name",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              ),
-                              SizedBox(
-                                width: 10.w,
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  color: appColor.greyColor10,
-                                  borderRadius: BorderRadius.circular(5),
-                                ),
-                                width: 45.w,
-                                height: 25.h,
-                                child: Padding(
-                                  padding:
-                                      EdgeInsets.only(top: 5.sp, left: 5.sp),
-                                  child: const Text("2-1-2023 to 3-2-2023",
-                                      textAlign: TextAlign.start,
-                                      style: TextStyle(
-                                          fontWeight: FontWeight.bold)),
-                                ),
-                              )
-                            ],
+                      Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: GestureDetector(
+                          onTap: () {
+                            _isAllActivityClicked = true;
+                            _isRevivedActicityClicked = false;
+                            setState(() {
+                              //data of all activity will be shown
+                              print(
+                                  "all activity status  ${_isAllActivityClicked}");
+                            });
+                          },
+                          child: Text(
+                            "All Activity",
+                            style: _isAllActivityClicked
+                                ? TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.sp)
+                                : TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18.sp),
                           ),
-                        ],
+                        ),
+                      ),
+                      SizedBox(
+                        width: 5.w,
+                      ),
+                      Padding(
+                        padding: EdgeInsets.all(10.sp),
+                        child: GestureDetector(
+                          onTap: () {
+                            _isAllActivityClicked = false;
+                            _isRevivedActicityClicked = true;
+
+                            setState(() {
+                              //data of revived activity will be shown
+                              print(
+                                  "all activity status  ${_isRevivedActicityClicked}");
+                            });
+                          },
+                          child: Text(
+                            "Reviewed Activity",
+                            style: _isRevivedActicityClicked
+                                ? TextStyle(
+                                    fontWeight: FontWeight.bold,
+                                    fontSize: 20.sp)
+                                : TextStyle(
+                                    fontWeight: FontWeight.normal,
+                                    fontSize: 18.sp),
+                          ),
+                        ),
                       ),
                     ],
-                  )
-          ]),
-    );
+                  ),
+                  SizedBox(
+                    height: 5.h,
+                  ),
+                  Divider(
+                    thickness: 10.sp,
+                  ),
+                  //------------------------------------Need to change here as it is not working inside a Row body
+                  Padding(
+                    padding: EdgeInsets.all(5.sp),
+                    child: TextField(
+                      decoration: const InputDecoration(
+                        hintText: 'Filter by name',
+                        prefixIcon: Icon(Icons.search),
+                      ),
+                      onChanged: (value) {
+                        setState(() {
+                          _searchQuery = value;
+                        });
+                      },
+                    ),
+                  ),
+                  //the body
+                  _isAllActivityClicked
+                      ? Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                //name and assending option row
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Name',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    IconButton(
+                                      icon: Icon(_isAscending
+                                          ? Icons.arrow_upward
+                                          : Icons.arrow_downward),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isAscending =
+                                              !_isAscending; // for asending and descending feature
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: appColor.greyColor10,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      width: 45.w,
+                                      height: 25.h,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.sp, left: 5.sp),
+                                        child: TextField(
+                                          decoration: const InputDecoration(
+                                            hintText: 'Filter by name',
+                                            prefixIcon: Icon(Icons.search),
+                                          ),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _searchQuery = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: appColor.greyColor10,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      width: 45.w,
+                                      height: 25.h,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.sp, left: 5.sp),
+                                        child: const Text(
+                                            "1-1-2023 to 1-2-2023",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                      : Column(
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                //name and assending option row
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    const Text('Name',
+                                        textAlign: TextAlign.start,
+                                        style: TextStyle(
+                                            fontWeight: FontWeight.bold)),
+                                    IconButton(
+                                      icon: Icon(_isAscending
+                                          ? Icons.arrow_upward
+                                          : Icons.arrow_downward),
+                                      onPressed: () {
+                                        setState(() {
+                                          _isAscending =
+                                              !_isAscending; // for asending and descending feature
+                                        });
+                                      },
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: appColor.greyColor10,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      width: 45.w,
+                                      height: 25.h,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.sp, left: 5.sp),
+                                        child: TextField(
+                                          decoration: const InputDecoration(
+                                            hintText: 'Filter by name',
+                                            prefixIcon: Icon(Icons.search),
+                                          ),
+                                          onChanged: (value) {
+                                            setState(() {
+                                              _searchQuery = value;
+                                            });
+                                          },
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      width: 10.w,
+                                    ),
+                                    Container(
+                                      decoration: BoxDecoration(
+                                        color: appColor.greyColor10,
+                                        borderRadius: BorderRadius.circular(5),
+                                      ),
+                                      width: 45.w,
+                                      height: 25.h,
+                                      child: Padding(
+                                        padding: EdgeInsets.only(
+                                            top: 5.sp, left: 5.sp),
+                                        child: const Text(
+                                            "2-1-2023 to 3-2-2023",
+                                            textAlign: TextAlign.start,
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.bold)),
+                                      ),
+                                    )
+                                  ],
+                                ),
+                              ],
+                            ),
+                          ],
+                        )
+                ]),
+          ),
+        ]));
   }
 }
